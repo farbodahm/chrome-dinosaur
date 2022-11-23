@@ -141,6 +141,7 @@ void startEngine(int highScore, struct user firstUser) {
 	int arrowX=(diX+15), arrowY=(diY-3);
 	char userInput;
     bool fire=FALSE;
+	int jumping=-1;
     clear();
 	nodelay(stdscr, TRUE);
   	init_pair(1,COLOR_WHITE,COLOR_BLACK);
@@ -195,8 +196,9 @@ void startEngine(int highScore, struct user firstUser) {
             cactusNum = rand() % 2;
 		}
         // if input is equal to ' ' then jump
-		if (userInput == ' ') {
+		if (userInput == ' ' && jumping<0) {
 			diY -= 7;
+			jumping = 3;
 		}
 		showDinasour(diY, diX);
 		if (userInput == ' ') {
@@ -216,7 +218,8 @@ void startEngine(int highScore, struct user firstUser) {
 		}
 		gameStatus = checkGame(y, x, diY, diX);
         // Bring back dinosaur
-		if (userInput == ' ') {
+		jumping--;
+		if (jumping==0) {
 			diY += 7;
 		}
 		mvhline(y+1, 1, '-', getmaxx(stdscr)-3);
